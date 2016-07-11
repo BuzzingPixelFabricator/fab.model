@@ -6,6 +6,9 @@
  * @version 1.0.0
  */
 
+// Make sure FAB is defined
+window.FAB = window.FAB || {};
+
 (function(F) {
 	'use strict';
 
