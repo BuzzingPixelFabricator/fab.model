@@ -81,28 +81,26 @@ window.FAB = window.FAB || {};
 		// Set prototype methods
 		constructor.prototype = {
 			get: function(name) {
-				if (this.properties[name]) {
-					if (this.propertyTypes[name] === 'int') {
-						return parseInt(this.properties[name]);
-					} else if (this.propertyTypes[name] === 'float') {
-						return parseFloat(this.properties[name]);
-					} else if (this.propertyTypes[name] === 'string') {
-						return String(this.properties[name]);
-					} else if (this.propertyTypes[name] === 'bool') {
-						if (this.properties[name] === true) {
-							return true;
-						} else {
-							return false;
-						}
-					} else if (this.propertyTypes[name] === 'array') {
-						if (this.properties[name].constructor === Array) {
-							return this.properties[name];
+				var model = this;
+
+				if (model.properties[name]) {
+					if (model.propertyTypes[name] === 'int') {
+						return parseInt(model.properties[name]);
+					} else if (model.propertyTypes[name] === 'float') {
+						return parseFloat(model.properties[name]);
+					} else if (model.propertyTypes[name] === 'string') {
+						return String(model.properties[name]);
+					} else if (model.propertyTypes[name] === 'bool') {
+						return model.properties[name] === true;
+					} else if (model.propertyTypes[name] === 'array') {
+						if (model.properties[name].constructor === Array) {
+							return model.properties[name];
 						} else {
 							return [];
 						}
-					} else if (this.propertyTypes[name] === 'object') {
-						if (this.properties[name].constructor === Object) {
-							return this.properties[name];
+					} else if (model.propertyTypes[name] === 'object') {
+						if (model.properties[name].constructor === Object) {
+							return model.properties[name];
 						} else {
 							return {};
 						}
@@ -111,17 +109,17 @@ window.FAB = window.FAB || {};
 					}
 				} else {
 					if (
-						this.propertyTypes[name] === 'int' ||
-						this.propertyTypes[name] === 'float'
+						model.propertyTypes[name] === 'int' ||
+						model.propertyTypes[name] === 'float'
 					) {
 						return 0;
-					} else if (this.propertyTypes[name] === 'string') {
+					} else if (model.propertyTypes[name] === 'string') {
 						return '';
-					} else if (this.propertyTypes[name] === 'bool') {
+					} else if (model.propertyTypes[name] === 'bool') {
 						return false;
-					} else if (this.propertyTypes[name] === 'array') {
+					} else if (model.propertyTypes[name] === 'array') {
 						return [];
-					} else if (this.propertyTypes[name] === 'object') {
+					} else if (model.propertyTypes[name] === 'object') {
 						return {};
 					} else {
 						return null;
@@ -129,79 +127,78 @@ window.FAB = window.FAB || {};
 				}
 			},
 			set: function(name, val) {
+				var model = this;
 				var changed = false;
-				var oldVal = this.properties[name];
+				var oldVal = model.properties[name];
 				var args;
 
-				if (this.propertyTypes[name] === 'int') {
-					this.properties[name] = parseInt(val);
+				if (model.propertyTypes[name] === 'int') {
+					model.properties[name] = parseInt(val);
 					changed = true;
-				} else if (this.propertyTypes[name] === 'float') {
-					this.properties[name] = parseFloat(val);
+				} else if (model.propertyTypes[name] === 'float') {
+					model.properties[name] = parseFloat(val);
 					changed = true;
-				} else if (this.propertyTypes[name] === 'string') {
-					this.properties[name] = String(val);
+				} else if (model.propertyTypes[name] === 'string') {
+					model.properties[name] = String(val);
 					changed = true;
-				} else if (this.propertyTypes[name] === 'bool') {
-					if (val === true || val === 'true' || val === 'yes' || val === 'y') {
-						this.properties[name] = true;
-					} else {
-						this.properties[name] = false;
-					}
+				} else if (model.propertyTypes[name] === 'bool') {
+					model.properties[name] = val === true || val === 'true' || val === 'yes' || val === 'y';
 					changed = true;
-				} else if (this.propertyTypes[name] === 'array') {
+				} else if (model.propertyTypes[name] === 'array') {
 					if (val.constructor === Array) {
-						this.properties[name] = val;
+						model.properties[name] = val;
 						changed = true;
 					}
-				} else if (this.propertyTypes[name] === 'object') {
+				} else if (model.propertyTypes[name] === 'object') {
 					if (val.constructor === Object) {
-						this.properties[name] = val;
+						model.properties[name] = val;
 						changed = true;
 					}
 				}
 
-				if (! changed || oldVal === this.properties[name] || this.changeEvents[name] === undefined) {
+				if (! changed || oldVal === model.properties[name] || model.changeEvents[name] === undefined) {
 					return;
 				}
 
 				args = [
-					this.properties[name],
+					model.properties[name],
 					oldVal
 				];
 
-				for (var i in this.changeEvents[name]) {
-					this.changeEvents[name][i].forEach(function(callback) {
+				for (var i in model.changeEvents[name]) {
+					model.changeEvents[name][i].forEach(function(callback) {
 						callback.apply(callback, args);
 					});
 				}
 			},
 			onChange: function(name, callback) {
+				var model = this;
 				var key = name.split('.');
 
-				if (this.propertyTypes[key[0]] !== undefined) {
+				if (model.propertyTypes[key[0]] !== undefined) {
 					if (key[1] === undefined) {
-						if (this.changeEvents[key[0]].noNameSpace === undefined) {
-							this.changeEvents[key[0]].noNameSpace = [];
+						if (model.changeEvents[key[0]].noNameSpace === undefined) {
+							model.changeEvents[key[0]].noNameSpace = [];
 						}
 
-						this.changeEvents[key[0]].noNameSpace.push(callback);
+						model.changeEvents[key[0]].noNameSpace.push(callback);
 					} else {
-						if (this.changeEvents[key[0]][key[1]] === undefined) {
-							this.changeEvents[key[0]][key[1]] = [];
+						if (model.changeEvents[key[0]][key[1]] === undefined) {
+							model.changeEvents[key[0]][key[1]] = [];
 						}
 
-						this.changeEvents[key[0]][key[1]].push(callback);
+						model.changeEvents[key[0]][key[1]].push(callback);
 					}
 				}
 			},
 			offChange: function(name) {
+				var model = this;
 				var key = name.split('.');
 
 				if (key[1] === undefined) {
-					this.changeEvents[key[0]] = {};
+					model.changeEvents[key[0]] = {};
 				} else {
-					delete this.changeEvents[key[0]][key[1]];
+					delete model.changeEvents[key[0]][key[1]];
 				}
 			}
 		};
