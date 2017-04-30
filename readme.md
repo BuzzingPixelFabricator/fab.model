@@ -4,6 +4,12 @@ While this component is designed with the [BuzzingPixel Fabricator Build Process
 
 A Fabricator Model is a way to store specified data, have it properly validated as the type declared, and watch for change events to the data.
 
+## Installing
+
+With Fabricator and NPM, simply require this library into your project and restart the Fabricator Grunt build process.
+
+If you are not using Fabricator, you will need to in some manner compile `src/FAB.model.js` into your build process or put it somewhere where you can link it into your projects.
+
 ## `FAB.model.make()`
 
 Returns: constructor

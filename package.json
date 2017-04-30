@@ -1,0 +1,24 @@
+{
+    "name": "fab.model",
+    "version": "1.1.0",
+    "description": "Data modeling for JavaScript",
+    "homepage": "https://github.com/BuzzingPixelFabricator/fab.model",
+    "bugs": "https://github.com/BuzzingPixelFabricator/fab.model/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BuzzingPixelFabricator/fab.model.git"
+    },
+    "license": "Apache-2.0",
+    "author": "BuzzingPixel, LLC",
+    "contributors": [
+        {
+            "name": "TJ Draper",
+            "url": "https://buzzingpixel.com"
+        }
+    ],
+    "fabricatorJsBuild": {
+        "files": [
+            "src/FAB.model.js"
+        ]
+    }
+}
