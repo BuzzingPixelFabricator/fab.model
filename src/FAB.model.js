@@ -231,4 +231,4 @@ window[window.FABNAMESPACE] = window.window[window.FABNAMESPACE] || {};
             return guids.indexOf(guid) > -1;
         }
     };
-})(window.FAB);
+})(window[window.FABNAMESPACE]);
