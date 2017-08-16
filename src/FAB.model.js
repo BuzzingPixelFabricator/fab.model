@@ -7,7 +7,8 @@
 \*----------------------------------------------------------------------------*/
 
 // Make sure FAB is defined
-window.FAB = window.FAB || {};
+window.FABNAMESPACE = window.FABNAMESPACE || 'FAB';
+window[window.FABNAMESPACE] = window.window[window.FABNAMESPACE] || {};
 
 (function(F) {
     'use strict';
